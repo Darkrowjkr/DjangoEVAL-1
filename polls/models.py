@@ -20,6 +20,12 @@ class Question(models.Model):
     def __str__(self):
         return self.question_text
 
+    def choices(self):
+        ctxt_list = []
+        for choice in self.choice_set.all():
+            ctxt_list.append(choice.choice_text + " con %i votos" % choice.votes)
+        return ctxt_list
+
     #Se debe importar el admin de django.contrib
     @admin.display( 
         boolean=True,
