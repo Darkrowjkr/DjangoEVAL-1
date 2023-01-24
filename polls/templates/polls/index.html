@@ -10,17 +10,23 @@
 </head>
 <body>
     {% if latest_question_list %}
+    <fieldset>
+        <legend><h2>Questions</h2></legend>
         <ul>
         {% for question in latest_question_list %}
             <li>
                 <!--<a href="/polls/{{ question.id }}/">{{ question.question_text }}</a>
                     **Se cambia para no hacer tan complicados los url-->
                 <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+                <p> con {{ question.votes }} votos</p>
             </li>
         {% endfor %}
         </ul>
+    </fieldset>
     {% else %}
         <p>No polls are available.</p>
     {% endif %}
+    <br>
+    <a href="../../../">Home</a>
 </body>
 </html>

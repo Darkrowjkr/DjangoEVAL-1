@@ -11,6 +11,12 @@ class Question(models.Model):
     def __str__(self):
         return self.question_text
 
+    def votes(self):
+        suma = 0
+        for choice in self.choice_set.all():
+            suma += choice.votes
+        return suma
+
     #Se debe importar el admin de django.contrib
     @admin.display( 
         boolean=True,
