@@ -8,10 +8,11 @@ class ChoiceInLine(admin.StackedInline):
     extra = 3
 
 class QuestionAdmin(admin.ModelAdmin):
-    #fields =  ['pub_date', 'question_text'] #Orden en que se presentan al editar
+    #fields =  ['pub_date', 'question_text', 'user] #Orden en que se presentan al editar
     fieldsets = [
         (None,                  {'fields': ['question_text']}),
         ('Date information',    {'fields': ['pub_date']}),
+        (None,                  {'fields': ['user']}),
     ]
     inlines = [ChoiceInLine]
     list_display = ('question_text', 'pub_date', 'was_published_recently') #Son las columnas que muestra
