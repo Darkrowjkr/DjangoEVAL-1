@@ -1,0 +1,8 @@
+li a {
+    color:palevioletred;
+}
+
+body {
+    background: white url("images/background.jpg") no-repeat;
+    align-items: center;
+}
