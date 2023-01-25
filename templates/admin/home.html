@@ -14,6 +14,28 @@
         <li><a href="polls/">Polls</a></li>
         <li><a href="admin/">Admin</a></li>
     </ul>
-
+    
+    {% csrf_token %}
+    <center>
+        <h2>Questions - Last day</h2>
+        <table border="solid 1">
+            <tr>
+                <th>ID</th>
+                <th>Question text</th>
+                <th>Date</th>
+                <th>User</th>
+                <th>Options</th>
+            </tr>
+            {% for q in last_day_question %}
+            <tr>
+                <td>{{ q.id }}</td>
+                <td>{{ q.question_text }}</td>
+                <td>{{ q.pub_date }}</td>
+                <td>{{ q.user }}</td>
+                <td><a href="{% url 'polls:detail' q.id %}">Open</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </center>
 </body>
 </html>

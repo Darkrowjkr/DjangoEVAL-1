@@ -26,6 +26,13 @@ class Question(models.Model):
             ctxt_list.append(choice.choice_text + " con %i votos" % choice.votes)
         return ctxt_list
 
+    def last_day_question(self):
+        qlist = []
+        for q in Question.objects.all():
+            if q.pub_date > (timezone.now() - datetime.timedelta(days=1)):
+                qlist.append(q)
+        return qlist
+
     #Se debe importar el admin de django.contrib
     @admin.display( 
         boolean=True,
