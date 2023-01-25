@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 #from django.template import loader # Se sustituyo con render
 
 from .models import Question, Choice
@@ -23,7 +24,7 @@ class IndexView(generic.ListView):
         else:
             pass
 
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
     context_object_name='question'

@@ -7,6 +7,7 @@
     <title>Question</title>
 </head>
 <body>
+    <br><br>
     <form action="{% url 'polls:vote' question.id %}" method="post">
     {% csrf_token %}
     <fieldset>
