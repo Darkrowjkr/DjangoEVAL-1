@@ -19,11 +19,6 @@ class QuestionAdmin(admin.ModelAdmin):
     list_filter = ['pub_date'] #Agrega una lista de filtros para la fecha
     search_fields = ['question_text'] #Agrega una barra de busqueda del nombre de la pregunta
 
-    def save_model(self, request, obj, form, change):
-        if not obj.user:
-            obj.user = request.user.username
-        obj.save()
-
 admin.site.register(Question, QuestionAdmin)
 
 #admin.site.register(Choice)
