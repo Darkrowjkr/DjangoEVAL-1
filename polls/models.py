@@ -1,4 +1,5 @@
 import datetime
+from django.db.models import Sum
 
 from django.db import models
 from django.utils import timezone
@@ -12,10 +13,7 @@ class Question(models.Model):
         return self.question_text
 
     def votes(self):
-        suma = 0
-        for choice in self.choice_set.all():
-            suma += choice.votes
-        return suma
+        return self.choice_set.all().aggregate(Sum('votes'))['votes__sum']
 
     #Se debe importar el admin de django.contrib
     @admin.display( 

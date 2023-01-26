@@ -16,8 +16,8 @@
 
     <a href="{% url 'polls:detail' question.id %}">Vote again?</a>
     <br>
-    <a href="../../">Return</a>
+    <a href="{% url 'polls:index' %}">Return</a>
     <br>
-    <a href="../../../">Home</a>
+    <a href="{% url 'home' %}">Home</a>
 </body>
 </html>

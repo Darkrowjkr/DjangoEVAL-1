@@ -18,7 +18,7 @@
                 <!--<a href="/polls/{{ question.id }}/">{{ question.question_text }}</a>
                     **Se cambia para no hacer tan complicados los url-->
                 <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
-                <p> con {{ question.votes }} votos</p>
+                <p>Tiene {{ question.votes }} votos</p>
             </li>
         {% endfor %}
         </ul>
@@ -27,6 +27,6 @@
         <p>No polls are available.</p>
     {% endif %}
     <br>
-    <a href="../../../">Home</a>
+    <a href="{% url 'home' %}">Home</a>
 </body>
 </html>
