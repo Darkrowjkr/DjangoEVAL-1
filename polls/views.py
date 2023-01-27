@@ -15,13 +15,32 @@ class IndexView(generic.ListView):
     def get_queryset(self):
         return Question.objects.order_by('-pub_date')[:5]
 
+    def post(self, request, *args, **kwargs):
+        if(request.POST['btn']):
+            question_id = request.POST['btn']
+            code = Question.base64code(question_id)
+            return HttpResponseRedirect(code)
+        else:
+            pass
+
 class DetailView(generic.DetailView):
     model = Question
     template_name = 'polls/detail.html'
+    context_object_name='question'
+
+    def get_object(self):
+        question_id = Question.base64decode(self.request.path.split("/")[2])
+        return Question.objects.get(id=question_id)
 
 class ResultsView(generic.DetailView):
     model = Question
     template_name = 'polls/results.html'
+    context_object_name='question'
+
+    def get_object(self):
+        question_id = Question.base64decode(self.request.path.split("/")[2])
+        return Question.objects.get(id=question_id)
+
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
@@ -35,4 +54,4 @@ def vote(request, question_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
-        return HttpResponseRedirect(reverse('polls:results', args=(question_id,))) #HttpResponseRedirect se usa generalmente en POST exitosos y el reverse se uso para que mandara '/polls/3/results/'
+        return HttpResponseRedirect(reverse('polls:results', args=(Question.base64code(question_id),))) #HttpResponseRedirect se usa generalmente en POST exitosos y el reverse se uso para que mandara '/polls/3/results/'
