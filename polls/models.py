@@ -10,13 +10,7 @@ from django.contrib.auth.models import User
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published', default=datetime.datetime.now())
-    username = ""
-    login = User.objects.get(pk=1).last_login
-    for u in User.objects.all():
-        if(u.last_login >= login):
-            login = u.last_login
-            username = u.username
-    user = models.CharField(max_length=150, default=username)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.question_text
@@ -34,18 +28,9 @@ class Question(models.Model):
                 qlist.append(q)
         return qlist
 
-    def base64code(mensaje:str):
-        message_bytes = mensaje.encode('ascii')
-        base64_bytes = base64.b64encode(message_bytes)
-        base64_message = base64_bytes.decode('ascii')
-        return base64_message
-
-    def base64decode(codigo:str):
-        base64_bytes = codigo.encode('ascii')
-        message_bytes = base64.b64decode(base64_bytes)
-        message = message_bytes.decode('ascii')
-        message:int
-        return message
+    def base64code(self):
+        return base64.b64encode(str(self.id).encode()).decode()
+        
 
     #Se debe importar el admin de django.contrib
     @admin.display( 

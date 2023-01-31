@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
+import base64
 #from django.template import loader # Se sustituyo con render
 
 from .models import Question, Choice
@@ -29,7 +30,7 @@ class DetailView(generic.DetailView):
     context_object_name='question'
 
     def get_object(self):
-        question_id = Question.base64decode(self.request.path.split("/")[2])
+        question_id = base64.b64decode(str(self.kwargs['pk']).encode()).decode()
         return Question.objects.get(id=question_id)
 
 class ResultsView(generic.DetailView):
@@ -38,7 +39,7 @@ class ResultsView(generic.DetailView):
     context_object_name='question'
 
     def get_object(self):
-        question_id = Question.base64decode(self.request.path.split("/")[2])
+        question_id = base64.b64decode(str(self.kwargs['pk']).encode()).decode()
         return Question.objects.get(id=question_id)
 
 
@@ -54,4 +55,4 @@ def vote(request, question_id):
     else:
         selected_choice.votes += 1
         selected_choice.save()
-        return HttpResponseRedirect(reverse('polls:results', args=(Question.base64code(question_id),))) #HttpResponseRedirect se usa generalmente en POST exitosos y el reverse se uso para que mandara '/polls/3/results/'
+        return HttpResponseRedirect(reverse('polls:results', args=(Question.base64code(question),))) #HttpResponseRedirect se usa generalmente en POST exitosos y el reverse se uso para que mandara '/polls/3/results/'

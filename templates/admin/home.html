@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'admin/style.css' %}">
 </head>
 
 <body>
@@ -14,6 +16,7 @@
     <ul>
         <li><a href="polls/">Polls</a></li>
         <li><a href="admin/">Admin</a></li>
+        <li><a href="accounts/login/">Login</a></li>
     </ul>
     <center>
         <h2>Questions - Last day</h2>
@@ -32,9 +35,8 @@
                     <td>{{ q.id }}</td>
                     <td>{{ q.question_text }}</td>
                     <td>{{ q.pub_date }}</td>
-                    <td>{{ q.user }}</td>
-                    <td><button type="submit" name="btn" id="btn{{ forloop.counter }}" value="{{ q.id }}">Open</button>
-                    </td>
+                    <td>{{ q.user.username }}</td>
+                    <td><a href="{% url 'polls:detail' q.base64code %}" type="button">Open</a></td>
                 </tr>
                 {% endfor %}
             </table>
