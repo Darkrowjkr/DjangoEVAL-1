@@ -16,6 +16,7 @@
     <ul>
         <li><a href="{% url 'polls:index' %}">Polls</a></li>
         <li><a href="{% url 'admin:index' %}">Admin</a></li>
+        <li><a href="{% url 'admin:login' %}">Login</a></li>
     </ul>
     <center>
         <h2>Questions - Last day</h2>
@@ -34,9 +35,8 @@
                     <td>{{ q.id }}</td>
                     <td>{{ q.question_text }}</td>
                     <td>{{ q.pub_date }}</td>
-                    <td>{{ q.user }}</td>
-                    <td><button type="submit" name="btn" id="btn{{ forloop.counter }}" value="{{ q.id }}">Open</button>
-                    </td>
+                    <td>{{ q.user.username }}</td>
+                    <td><a href="{% url 'polls:detail' q.base64code %}" type="button">Open</a></td>
                 </tr>
                 {% endfor %}
             </table>

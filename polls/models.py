@@ -32,18 +32,9 @@ class Question(models.Model):
                 qlist.append(q)
         return qlist
 
-    def base64code(mensaje:str):
-        message_bytes = mensaje.encode('ascii')
-        base64_bytes = base64.b64encode(message_bytes)
-        base64_message = base64_bytes.decode('ascii')
-        return base64_message
-
-    def base64decode(codigo:str):
-        base64_bytes = codigo.encode('ascii')
-        message_bytes = base64.b64decode(base64_bytes)
-        message = message_bytes.decode('ascii')
-        message:int
-        return message
+    def base64code(self):
+        return base64.b64encode(str(self.id).encode()).decode()
+        
 
     #Se debe importar el admin de django.contrib
     @admin.display( 
