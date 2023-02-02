@@ -6,7 +6,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 #from django.template import loader # Se sustituyo con render
 
-from .models import Question, Choice
+from .models import Question, Choice, Logs
 
 # Create your views here.
 class IndexView(generic.ListView):
@@ -45,14 +45,28 @@ class ResultsView(generic.DetailView):
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        return render(request, 'polls/details.html', {
-            'question':question,
-            'error_message':"You didn't select a choice...",
-        })
+    flag = True
+    for reg in Logs.objects.all():
+        if(question.question_text == reg.question.question_text and request.user.username == reg.user):
+            flag = False
+    if(flag):
+        try:
+            selected_choice = question.choice_set.get(pk=request.POST['choice'])
+        except (KeyError, Choice.DoesNotExist):
+            return render(request, 'polls/detail.html', {
+                'question':question,
+                'error_message':"You didn't select a choice...",
+            })
+        else:
+            q = question
+            u = request.user.username
+            newlog = Logs(question = q, user= u)
+            newlog.save()
+            selected_choice.votes += 1
+            selected_choice.save()
+            return HttpResponseRedirect(reverse('polls:results', args=(Question.base64code(question_id),))) #HttpResponseRedirect se usa generalmente en POST exitosos y el reverse se uso para que mandara '/polls/3/results/'
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        return HttpResponseRedirect(reverse('polls:results', args=(Question.base64code(question_id),))) #HttpResponseRedirect se usa generalmente en POST exitosos y el reverse se uso para que mandara '/polls/3/results/'
+        return render(request, 'polls/detail.html', {
+                'question':question,
+                'error_message':"You already voted!..." + request.user.username,
+            })

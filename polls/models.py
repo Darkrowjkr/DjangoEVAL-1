@@ -63,3 +63,10 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
     def __str__(self):
         return self.choice_text
+
+class Logs(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user = models.CharField(max_length=150)
+    def __str__(self):
+        return self.user
+    
