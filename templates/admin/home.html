@@ -1,19 +1,47 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'admin/style.css' %}">
 </head>
+
 <body>
     <h2>HOME - POLLS</h2>
     <br>
     <ul>
-        <li><a href="{% url 'polls:index'%}">Polls</a></li>
+        <li><a href="{% url 'polls:index' %}">Polls</a></li>
         <li><a href="{% url 'admin:index' %}">Admin</a></li>
     </ul>
-
+    <center>
+        <h2>Questions - Last day</h2>
+        <form action="" method="post">
+            {% csrf_token %}
+            <table border="solid 1">
+                <tr>
+                    <th>ID</th>
+                    <th>Question text</th>
+                    <th>Date</th>
+                    <th>User</th>
+                    <th>Options</th>
+                </tr>
+                {% for q in last_day_question %}
+                <tr>
+                    <td>{{ q.id }}</td>
+                    <td>{{ q.question_text }}</td>
+                    <td>{{ q.pub_date }}</td>
+                    <td>{{ q.user }}</td>
+                    <td><button type="submit" name="btn" id="btn{{ forloop.counter }}" value="{{ q.id }}">Open</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </form>
+    </center>
 </body>
+
 </html>
