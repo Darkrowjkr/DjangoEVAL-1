@@ -11,13 +11,7 @@ from django.contrib.auth.models import User
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published', default=datetime.datetime.now())
-    username = ""
-    login = User.objects.get(pk=1).last_login
-    for u in User.objects.all():
-        if(u.last_login >= login):
-            login = u.last_login
-            username = u.username
-    user = models.CharField(max_length=150, default=username)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.question_text
