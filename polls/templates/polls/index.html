@@ -12,19 +12,25 @@
 
 <body>
     {% if latest_question_list %}
+    <fieldset>
+        <legend><h2>Questions</h2></legend>
     <form action="" method="post">
         {% csrf_token %}
         <ul>
             {% for question in latest_question_list %}
             <li>
                 <p><strong>{{ question.question_text }}</strong>&nbsp;<a type="button" href="{% url 'polls:detail' question.base64code %}">Open</a></p>
+                <p>Tiene {{ question.votes }} votos</p>
             </li>
             {% endfor %}
         </ul>
-    </form>
+        </form>
+    </fieldset>
     {% else %}
     <p>No polls are available.</p>
     {% endif %}
+    <br>
+    <a href="{% url 'home' %}">Home</a>
 </body>
 
 </html>

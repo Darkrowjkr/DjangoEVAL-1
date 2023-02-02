@@ -1,4 +1,5 @@
 import datetime
+from django.db.models import Sum
 import base64
 
 from django.db import models
@@ -15,6 +16,9 @@ class Question(models.Model):
     def __str__(self):
         return self.question_text
 
+    def votes(self):
+        return self.choice_set.all().aggregate(Sum('votes'))['votes__sum']
+        
     def choices(self):
         ctxt_list = []
         for choice in self.choice_set.all():
@@ -48,3 +52,10 @@ class Choice(models.Model):
     votes = models.IntegerField(default=0)
     def __str__(self):
         return self.choice_text
+
+class Logs(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    user = models.CharField(max_length=150)
+    def __str__(self):
+        return self.user
+    

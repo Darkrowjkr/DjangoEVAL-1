@@ -14,9 +14,9 @@
     <h2>HOME - POLLS</h2>
     <br>
     <ul>
-        <li><a href="polls/">Polls</a></li>
-        <li><a href="admin/">Admin</a></li>
-        <li><a href="accounts/login/">Login</a></li>
+        <li><a href="{% url 'polls:index' %}">Polls</a></li>
+        <li><a href="{% url 'admin:index' %}">Admin</a></li>
+        <li><a href="{% url 'admin:login' %}">Login</a></li>
     </ul>
     <center>
         <h2>Questions - Last day</h2>
