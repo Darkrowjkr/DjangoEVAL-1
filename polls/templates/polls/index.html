@@ -12,6 +12,8 @@
 
 <body>
     {% if latest_question_list %}
+    <fieldset>
+        <legend><h2>Questions</h2></legend>
     <form action="" method="post">
         {% csrf_token %}
         <ul>
@@ -19,15 +21,20 @@
             <li>
                 <!--<a href="/polls/{{ question.id }}/">{{ question.question_text }}</a>
                     **Se cambia para no hacer tan complicados los url-->
+                <a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a>
+                <p>Tiene {{ question.votes }} votos</p>
                 <p><strong>{{ question.question_text }}</strong>&nbsp;<button type="submit" name="btn" id="btni{{ forloop.counter }}" value="{{ question.id }}">Open</button></p>
                 
             </li>
             {% endfor %}
         </ul>
-    </form>
+        </form>
+    </fieldset>
     {% else %}
     <p>No polls are available.</p>
     {% endif %}
+    <br>
+    <a href="{% url 'home' %}">Home</a>
 </body>
 
 </html>
