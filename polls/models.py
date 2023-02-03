@@ -56,6 +56,7 @@ class Choice(models.Model):
 class Logs(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     user = models.CharField(max_length=150)
+    date_vote = models.DateTimeField("vote date", default=datetime.datetime.now())
     def __str__(self):
         return self.user
     

@@ -19,28 +19,49 @@
         <li><a href="{% url 'login' %}">Login</a></li>
     </ul>
     <center>
-        <h2>Questions - Last day</h2>
-        <form action="" method="post">
-            {% csrf_token %}
-            <table border="solid 1">
-                <tr>
-                    <th>ID</th>
-                    <th>Question text</th>
-                    <th>Date</th>
-                    <th>User</th>
-                    <th>Options</th>
-                </tr>
-                {% for q in last_day_question %}
-                <tr>
-                    <td>{{ q.id }}</td>
-                    <td>{{ q.question_text }}</td>
-                    <td>{{ q.pub_date }}</td>
-                    <td>{{ q.user.username }}</td>
-                    <td><a href="{% url 'polls:detail' q.base64code %}" type="button">Open</a></td>
-                </tr>
-                {% endfor %}
-            </table>
-        </form>
+        {% for i,list in last_questions_vote %}
+            {%if i == 1 %}
+                <h2>Questions - Last day</h2>
+                <form action="" method="post">
+                    {% csrf_token %}
+                        <table border="solid 1">
+                            <tr>
+                                <th>ID</th>
+                                <th>Question text</th>
+                                <th>Date</th>
+                                <th>User</th>
+                                <th>Options</th>
+                            </tr>
+                            {% for q in list %}
+                            <tr>
+                                <td>{{ q.id }}</td>
+                                <td>{{ q.question_text }}</td>
+                                <td>{{ q.pub_date }}</td>
+                                <td>{{ q.user.username }}</td>
+                                <td><a href="{% url 'polls:detail' q.base64code %}" type="button">Open</a></td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                </form>
+            {% else %}
+                <br><br>
+                <h2>Last Question Answered</h2>
+                <table border="solid 1">
+                    <tr>
+                        <th>ID</th>
+                        <th>Question text</th>
+                        <th>Date Voted</th>
+                        <th>User</th>
+                    </tr>
+                    <tr>
+                        <td>{{ list.id }}</td>
+                        <td>{{ list.question.question_text }}</td>
+                        <td>{{ list.date_vote }}</td>
+                        <td>{{ list.user }}</td>
+                    </tr>
+                </table>
+            {% endif %}
+        {% endfor %}
     </center>
 </body>
 
